@@ -240,6 +240,295 @@ Open Data & Visualization - The Trust Layer:
 - **Farmers' Organizations**: Local implementation networks
 
 
+## 🗺️ Development Roadmap
+
+### Phase 1: Foundation & MVP (Q3-Q4 2024) ✅ **COMPLETED**
+**Status**: Core infrastructure implemented, Farmer Portal Live
+
+#### ✅ Completed Components:
+- **Project Portal Frontend** (Layer 3): Complete farmer dashboard with:
+  - Project management system (CRUD operations, filtering, search)
+  - Real-time monitoring dashboard (satellite insights, alerts)
+  - Financing module (credit tokenization status, revenue tracking)
+  - Team management interface
+  - Document management system
+  - Settings & configuration panel
+- **UI/UX Foundation**: 
+  - Design system with Tailwind CSS v4
+  - Responsive layouts (mobile-first approach)
+  - Component library with consistent patterns
+  - Custom animations and transitions
+- **Frontend Architecture**:
+  - Next.js 15 App Router implementation
+  - TypeScript with full type safety
+  - Context API for state management
+  - Modular component architecture
+
+#### 🎯 Current Status: 
+Farmer-facing portal is fully operational with mock data. Ready for backend integration and blockchain connectivity.
+
+---
+
+### Phase 2: Backend Integration & Blockchain Layer (Q1 2025)
+**Focus**: Connect frontend to Stellar blockchain and backend services
+
+#### 🔄 In Progress / Next Steps:
+1. **Stellar Integration** (Layer 1)
+   - [ ] Stellar SDK integration for wallet connectivity
+   - [ ] Soroban smart contract interactions
+   - [ ] C-01 Token Standard implementation
+   - [ ] Carbon asset minting and transfer functions
+   - [ ] On-chain retirement verification
+
+2. **Backend Services** (Layer 3 Backend - Go)
+   - [ ] Project onboarding API endpoints
+   - [ ] Document management with IPFS integration
+   - [ ] Credit tokenization workflow
+   - [ ] Farmer authentication and authorization
+   - [ ] Real-time data synchronization
+
+3. **Satellite Data Integration** (Layer 2)
+   - [ ] Sentinel-2 API integration
+   - [ ] NDVI calculation service
+   - [ ] Real-time vegetation monitoring
+   - [ ] Automated alert system
+
+#### 📊 Milestones:
+- **M1.1**: Connect to Stellar testnet, mint test carbon credits
+- **M1.2**: Implement project CRUD with Go backend
+- **M1.3**: Integrate satellite data feeds
+- **M1.4**: Deploy to Staging environment
+
+---
+
+### Phase 3: Corporate Platform & Marketplace (Q2 2025)
+**Focus**: Build corporate buyer interface and marketplace functionality
+
+#### 🎯 Planned Components:
+1. **Corporate Platform** (Layer 4)
+   - [ ] Corporate dashboard for credit purchasing
+   - [ ] One-click retirement interface
+   - [ ] ESG reporting automation
+   - [ ] Portfolio management tools
+   - [ ] Compliance document generation
+
+2. **Marketplace Engine**
+   - [ ] Credit discovery and search
+   - [ ] Dutch auction mechanism
+   - [ ] Real-time price discovery
+   - [ ] Credit recommendation AI
+   - [ ] Corporate onboarding flow
+
+3. **Advanced Features**
+   - [ ] Forward sale agreements
+   - [ ] Credit bundling options
+   - [ ] API access for enterprise integration
+   - [ ] Bulk purchasing interface
+
+#### 📊 Milestones:
+- **M2.1**: Corporate platform MVP launch
+- **M2.2**: First corporate pilot programs
+- **M2.3**: Marketplace with basic auction functionality
+- **M2.4**: Integration with major registries (Verra bridge)
+
+---
+
+### Phase 4: Financialization & Advanced Features (Q3 2025)
+**Focus**: Implement financial instruments and cross-chain capabilities
+
+#### 🎯 Planned Components:
+1. **Financialization Engine** (Layer 5)
+   - [ ] Carbon credit futures contracts
+   - [ ] Options trading platform
+   - [ ] Project financing mechanisms
+   - [ ] Credit scoring algorithms
+   - [ ] Insurance pool implementation
+
+2. **Cross-Chain Integration**
+   - [ ] Verra registry bridge (soroban/)
+   - [ ] Gold Standard bridge
+   - [ ] Polygon/Ethereum DeFi integration
+   - [ ] IBC/CCIP implementation
+
+3. **Dynamic Carbon Credits**
+   - [ ] Real-time value adjustment algorithms
+   - [ ] Environmental condition tracking
+   - [ ] Automated buffer pool adjustments
+   - [ ] Risk assessment models
+
+#### 📊 Milestones:
+- **M3.1**: Launch carbon derivatives platform
+- **M3.2**: Cross-chain bridge to Verra
+- **M3.3**: Dynamic credit valuation v1
+- **M3.4**: Institutional investor onboarding
+
+---
+
+### Phase 5: Global Registry & Scale (Q4 2025)
+**Focus**: Deploy global registry and achieve enterprise scale
+
+#### 🎯 Planned Components:
+1. **Global Registry** (Layer 6)
+   - [ ] Registry-of-registries smart contract
+   - [ ] Unified credit ID system
+   - [ ] Global double counting prevention
+   - [ ] High-performance API gateway
+   - [ ] Regulatory adapter framework
+
+2. **Enterprise Features**
+   - [ ] Multi-tenant architecture
+   - [ ] SSO and enterprise auth
+   - [ ] Advanced reporting suite
+   - [ ] Audit trail system
+   - [ ] SLA guarantees
+
+3. **Public Transparency** (Layer 7)
+   - [ ] Global impact dashboard
+   - [ ] Real-time retirement ticker
+   - [ ] 3D globe visualization
+   - [ ] Data availability layer
+   - [ ] Public API access
+
+#### 📊 Milestones:
+- **M4.1**: Global registry mainnet launch
+- **M4.2**: Enterprise customer deployment
+- **M4.3**: Public transparency dashboard
+- **M4.4**: 100+ projects onboarded
+
+---
+
+### Phase 6: Ecosystem Expansion & AI Integration (2026)
+**Focus**: Expand methodology coverage and integrate advanced AI
+
+#### 🎯 Planned Components:
+1. **2026 Twist: Dynamic Carbon Credits**
+   - [ ] Real-time satellite value updates
+   - [ ] Forest growth tracking algorithms
+   - [ ] Drought condition impact modeling
+   - [ ] Automated risk adjustment
+   - [ ] Predictive analytics for credit valuation
+
+2. **AI & Machine Learning**
+   - [ ] AI-powered project verification
+   - [ ] Predictive deforestation alerts
+   - [ ] Automated methodology matching
+   - [ ] Credit price forecasting
+   - [ ] Anomaly detection systems
+
+3. **Ecosystem Expansion**
+   - [ ] Blue carbon methodologies
+   - [ ] Urban carbon projects
+   - [ ] Industrial carbon capture
+   - [ ] Carbon removal technologies
+   - [ ] Biodiversity credit integration
+
+4. **Mobile & Field Applications**
+   - [ ] Offline-first mobile apps
+   - [ ] Drone data integration
+   - [ ] Field sensor networks
+   - [ ] Community validation tools
+   - [ ] Local language support
+
+#### 📊 Milestones:
+- **M5.1**: Dynamic carbon credits live on mainnet
+- **M5.2**: AI verification system deployment
+- **M5.3**: Mobile app launch for field teams
+- **M5.4**: 1,000+ projects across 50+ countries
+
+---
+
+### Phase 7: Global Impact & Decentralization (2027+)
+**Focus**: Achieve platform decentralization and global scale impact
+
+#### 🎯 Long-term Vision:
+1. **Full Decentralization**
+   - [ ] DAO governance implementation
+   - [ ] Validator network expansion
+   - [ ] Protocol-owned liquidity
+   - [ ] Community-driven development
+   - [ ] Open source ecosystem
+
+2. **Global Standards**
+   - [ ] ISO certification for methodologies
+   - [ ] UNFCCC recognition
+   - [ ] Industry standard adoption
+   - [ ] Regulatory framework contributions
+   - [ ] Academic research partnerships
+
+3. **Impact Targets**
+   - [ ] 1 billion tonnes CO₂e tokenized
+   - [ ] $10B+ in project financing
+   - [ ] 10,000+ projects globally
+   - [ ] 1M+ hectares protected
+   - [ ] 500K+ livelihoods improved
+
+4. **Technology Evolution**
+   - [ ] Quantum-resistant cryptography
+   - [ ] Advanced satellite constellations
+   - [ ] IoT sensor networks expansion
+   - [ ] Interplanetary file system integration
+   - [ ] Carbon metaverse integration
+
+#### 📊 Ultimate Goals:
+- **Vision**: Become the global standard for transparent carbon markets
+- **Mission**: Make high-quality carbon credits accessible to all projects
+- **Impact**: Significant contribution to global climate goals
+- **Innovation**: Continuous advancement in environmental fintech
+
+---
+
+## 🔄 Current Development Status
+
+### ✅ Completed (Phase 1)
+- **Farmer Portal Frontend**: 100%
+- **UI/UX Design System**: 100%
+- **Component Library**: 100%
+- **Mock Data Integration**: 100%
+- **Responsive Design**: 100%
+
+### 🔄 In Progress (Phase 2)
+- **Stellar Integration**: 0%
+- **Backend API Development**: 0%
+- **Satellite Data Integration**: 0%
+- **Authentication System**: 0%
+
+### 📅 Upcoming (Phase 2-3)
+- **Corporate Platform**: 0%
+- **Marketplace Engine**: 0%
+- **Financialization Features**: 0%
+- **Cross-Chain Bridges**: 0%
+
+### 📊 Overall Progress: 10%
+*Based on completed frontend vs. full 7-layer architecture implementation*
+
+---
+
+## 🎯 Key Technical Milestones Timeline
+
+```mermaid
+timeline
+    title CarbonScribe Development Timeline
+    section 2026
+        January : Project Portal MVP<br>Farmer Dashboard Live
+        February : Stellar Integration<br>Backend APIs
+        March : Corporate Platform<br>Marketplace v1
+        April : Financialization Engine<br>Cross-chain Bridges
+        May : Global Registry<br>Enterprise Features
+        June : Public Dashboard<br>Scale Launch
+        July : Dynamic Credits<br>AI Verification
+        August : Mobile Apps<br>Field Tools Deployment
+    section 2026 Q3-Q4
+        September : Methodology Expansion
+        October : DAO Transition Begins
+        November : Ecosystem Partnerships
+        December : 2026 Vision Complete
+    section 2027+
+        Early 2027 : Full Decentralization
+        Mid 2027 : Global Standard Adoption
+        Late 2027 : Impact Scale Targets
+```
+
+
 
 ---
 **CarbonScribe**: Making every ton of carbon count. Transparent, verifiable, and accessible to all.
