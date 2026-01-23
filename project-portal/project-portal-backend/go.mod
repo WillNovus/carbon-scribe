@@ -3,57 +3,9 @@ module carbon-scribe/project-portal/project-portal-backend
 go 1.24.5
 
 require (
-	github.com/aws/aws-lambda-go v1.47.0
-	github.com/aws/aws-sdk-go-v2 v1.32.0
-	github.com/aws/aws-sdk-go-v2/config v1.28.0
-	github.com/aws/aws-sdk-go-v2/credentials v1.17.41
-	github.com/aws/aws-sdk-go-v2/service/apigatewaymanagementapi v1.21.0
-	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.36.0
-	github.com/aws/aws-sdk-go-v2/service/eventbridge v1.35.0
-	github.com/aws/aws-sdk-go-v2/service/ses v1.28.0
-	github.com/aws/aws-sdk-go-v2/service/sns v1.33.0
 	github.com/gin-gonic/gin v1.11.0
-	github.com/golang-jwt/jwt/v5 v5.2.1
-	github.com/google/uuid v1.6.0
-)
-
-require (
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.17 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.19 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.19 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.1 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.10.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.24.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.28.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.32.0 // indirect
-	github.com/aws/smithy-go v1.22.0 // indirect
-	// Web Framework
-	github.com/gin-gonic/gin v1.11.0
-	github.com/go-playground/validator/v10 v10.27.0
-
-	// Database & ORM
-	gorm.io/gorm v1.25.12
-	gorm.io/driver/postgres v1.5.11
-	github.com/lib/pq v1.10.9
-
-	// Geospatial Libraries
-	github.com/twpayne/go-geom v1.5.7
-	github.com/paulmach/go.geojson v1.5.0
-	github.com/cridenour/go-postgis v1.0.0
-
-	// Configuration
-	github.com/spf13/viper v1.19.0
-	github.com/joho/godotenv v1.5.1
-
-	// Utilities
-	github.com/google/uuid v1.6.0
-	github.com/shopspring/decimal v1.4.0
-	go.uber.org/zap v1.27.0
-
-	// HTTP Client (for Mapbox/Google Maps APIs)
-	github.com/go-resty/resty/v2 v2.16.2
+	github.com/golang-jwt/jwt/v5 v5.3.0
+	golang.org/x/crypto v0.40.0
 )
 
 require (
@@ -63,7 +15,6 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.4.3
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
 	github.com/gin-contrib/sse v1.1.0 // indirect
-	github.com/gin-gonic/gin v1.11.0
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
@@ -87,7 +38,6 @@ require (
 	go.uber.org/mock v0.5.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.20.0 // indirect
-	golang.org/x/crypto v0.40.0 // indirect
 	golang.org/x/mod v0.25.0 // indirect
 	golang.org/x/net v0.42.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect
