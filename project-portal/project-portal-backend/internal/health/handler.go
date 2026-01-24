@@ -21,6 +21,7 @@ func (h *Handler) RegisterRoutes(router *gin.RouterGroup) {
 	reports := router.Group("/health")
 	{
 		reports.POST("/metrics", h.CreateSystemMetric)
+		reports.GET("/metrics", h.GetSystemMetrics)
 	}
 }
 
@@ -51,4 +52,35 @@ func (h *Handler) CreateSystemMetric(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, metric)
+}
+
+// GetSystemMetrics queries system metrics
+// @Summary Query system metrics
+// @Description Query system metrics with filtering support
+// @Tags health
+// @Accept json
+// @Produce json
+// @Param metric_name query string false "Metric name"
+// @Param metric_type query string false "Metric type"
+// @Param service_name query string false "Service name"
+// @Param start_time query string false "Start time (RFC3339)"
+// @Param end_time query string false "End time (RFC3339)"
+// @Param limit query int false "Limit"
+// @Success 200 {array} SystemMetric
+// @Failure 401 {object} ErrorResponse
+// @Router /api/v1/health/metrics [get]
+func (h *Handler) GetSystemMetrics(c *gin.Context) {
+	var query MetricQuery
+	if err := c.ShouldBindQuery(&query); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	metrics, err := h.service.GetSystemMetrics(c.Request.Context(), query)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, metrics)
 }

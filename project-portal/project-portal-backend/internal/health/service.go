@@ -12,6 +12,7 @@ import (
 // Service defines the interface for health business logic
 type Service interface {
 	CreateSystemMetric(ctx context.Context, req CreateSystemMetricRequest) (*SystemMetric, error)
+	GetSystemMetrics(ctx context.Context, query MetricQuery) ([]SystemMetric, error)
 }
 
 // service implements the Service interface
@@ -59,4 +60,8 @@ func (s *service) CreateSystemMetric(ctx context.Context, req CreateSystemMetric
 	}
 
 	return systemMetric, nil
+}
+
+func (s *service) GetSystemMetrics(ctx context.Context, query MetricQuery) ([]SystemMetric, error) {
+	return s.repo.QuerySystemMetrics(ctx, query)
 }

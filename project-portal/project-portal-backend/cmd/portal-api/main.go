@@ -194,21 +194,39 @@ func runMigrations(db *gorm.DB) error {
 		&reports.BenchmarkDataset{},
 		&reports.DashboardWidget{},
 		&health.SystemMetric{},
+		&health.ServiceHealthCheck{},
+		&health.HealthCheckResult{},
+		&health.SystemAlert{},
+		&health.ServiceDependency{},
+		&health.SystemStatusSnapshot{},
 	)
 	if err != nil {
 		return err
 	}
 
-	// Enable TimescaleDB extension and create hypertable
+	// Enable TimescaleDB extension and create hypertables
 	db.Exec("CREATE EXTENSION IF NOT EXISTS timescaledb")
 
-	// Check if hypertable was created
-	var exists bool
-	db.Raw("SELECT EXISTS (SELECT 1 FROM _timescaledb_catalog.hypertable WHERE table_name = 'system_metrics')").Scan(&exists)
-	if !exists {
-		if err := db.Exec("SELECT create_hypertable('system_metrics', 'time')").Error; err != nil {
-			return fmt.Errorf("failed to create hypertable: %w", err)
+	// Helper to create hypertable if it doesn't exist
+	createHypertable := func(tableName, timeCol string) error {
+		var exists bool
+		db.Raw("SELECT EXISTS (SELECT 1 FROM _timescaledb_catalog.hypertable WHERE table_name = ?)", tableName).Scan(&exists)
+		if !exists {
+			if err := db.Exec(fmt.Sprintf("SELECT create_hypertable('%s', '%s')", tableName, timeCol)).Error; err != nil {
+				return fmt.Errorf("failed to create hypertable %s: %w", tableName, err)
+			}
 		}
+		return nil
+	}
+
+	if err := createHypertable("system_metrics", "time"); err != nil {
+		return err
+	}
+	if err := createHypertable("health_check_results", "check_time"); err != nil {
+		return err
+	}
+	if err := createHypertable("system_status_snapshots", "snapshot_time"); err != nil {
+		return err
 	}
 
 	return nil

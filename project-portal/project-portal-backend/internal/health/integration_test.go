@@ -53,11 +53,25 @@ func TestCreateSystemMetric(t *testing.T) {
 	req, _ := http.NewRequest("POST", "/api/v1/health/metrics", bytes.NewBuffer(body))
 	router.ServeHTTP(w, req)
 
-	// Assertions
+	// Assertions for POST
 	assert.Equal(t, http.StatusCreated, w.Code)
 
-	var response health.SystemMetric
-	err = json.Unmarshal(w.Body.Bytes(), &response)
+	var postResponse health.SystemMetric
+	err = json.Unmarshal(w.Body.Bytes(), &postResponse)
 	assert.NoError(t, err)
-	assert.Equal(t, "cpu_usage_test", response.MetricName)
+	assert.Equal(t, "cpu_usage_test", postResponse.MetricName)
+
+	// Execute GET request to verify retrieval
+	w2 := httptest.NewRecorder()
+	req2, _ := http.NewRequest("GET", "/api/v1/health/metrics?metric_name=cpu_usage_test", nil)
+	router.ServeHTTP(w2, req2)
+
+	// Assertions for GET
+	assert.Equal(t, http.StatusOK, w2.Code)
+
+	var getResponse []health.SystemMetric
+	err = json.Unmarshal(w2.Body.Bytes(), &getResponse)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, getResponse)
+	assert.Equal(t, "cpu_usage_test", getResponse[0].MetricName)
 }
