@@ -70,6 +70,37 @@ impl BufferPoolContract {
 
         Ok(())
     }
+
+    pub fn withdraw_to_replace(
+        env: Env,
+        governance_caller: Address,
+        token_id: u32,
+        target_invalidated_token: u32,
+    ) -> Result<(), Error> {
+        let governance = get_governance(&env);
+
+        if governance_caller != governance {
+            return Err(Error::Unauthorized);
+        }
+
+        governance_caller.require_auth();
+
+        // TODO: validate token exists
+        if !has_custody_record(&env, token_id) {
+            return Err(Error::TokenNotFound);
+        }
+
+        let key = soroban_sdk::Symbol::short("custody");
+        env.storage().persistent().remove(&(key, token_id));
+
+        let tvl = get_total_value_locked(&env);
+        set_total_value_locked(&env, tvl - 1);
+
+        // TODO: emit event with target_invalidated_token
+
+        Ok(())
+    }
 }
+
 
 
