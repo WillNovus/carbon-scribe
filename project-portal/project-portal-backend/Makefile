@@ -84,7 +84,7 @@ test-coverage:
 test-notifications:
 	$(GOTEST) -v ./internal/notifications/...
 
-test-integration:
+test-integration: db-up
 	$(GOTEST) -v ./internal/health/...
 
 # Lint and format
