@@ -3,6 +3,8 @@
 mod errors;
 mod events;
 mod storage;
+#[cfg(test)]
+mod test;
 
 use errors::Error;
 use events::*;
