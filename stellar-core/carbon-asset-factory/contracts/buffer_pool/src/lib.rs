@@ -16,6 +16,8 @@ pub struct BufferPoolContract;
 
 #[contractimpl]
 impl BufferPoolContract {
+    /// Initialize the buffer pool with admin, governance, and carbon contract addresses.
+    /// Can only be called once. Percentage is in basis points (e.g., 500 = 5%).
     pub fn initialize(
         env: Env,
         admin: Address,
@@ -40,6 +42,8 @@ impl BufferPoolContract {
         Ok(())
     }
 
+    /// Manually deposit a carbon credit token into the pool.
+    /// Only admin or carbon_asset_contract can call this.
     pub fn deposit(
         env: Env,
         caller: Address,
