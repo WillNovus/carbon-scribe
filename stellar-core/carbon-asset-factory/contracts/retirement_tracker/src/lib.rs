@@ -147,11 +147,11 @@ impl RetirementTracker {
         let hash = env.crypto().sha256(&hash_input);
         let tx_hash = BytesN::from_array(&env, &hash.to_array());
 
-        // Call burn on CarbonAsset contract
+        // Call burn_token on CarbonAsset contract
         // The contract must be pre-authorized as a burner on the CarbonAsset contract
-        // We assume CarbonAsset has a burn function that accepts (token_id: u32, from: Address)
+        // We assume CarbonAsset has a burn_token function that accepts (token_id: u32, from: Address)
         // The CarbonAsset contract should verify ownership before allowing burn
-        let burn_symbol = Symbol::new(&env, "burn");
+        let burn_symbol = Symbol::new(&env, "burn_token");
         let mut burn_args = Vec::new(&env);
         burn_args.push_back(token_id.into_val(&env));
         burn_args.push_back(retiring_entity.clone().into_val(&env));
