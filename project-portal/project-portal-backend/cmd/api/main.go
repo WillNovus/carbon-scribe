@@ -12,6 +12,7 @@ import (
 
 	"carbon-scribe/project-portal/project-portal-backend/internal/auth"
 	"carbon-scribe/project-portal/project-portal-backend/internal/collaboration"
+	"carbon-scribe/project-portal/project-portal-backend/internal/compliance"
 	"carbon-scribe/project-portal/project-portal-backend/internal/config"
 	"carbon-scribe/project-portal/project-portal-backend/internal/documents"
 	"carbon-scribe/project-portal/project-portal-backend/internal/health"
@@ -127,6 +128,9 @@ func main() {
 		docSvc := documents.NewServiceWithIPFS(docRepo, docStorageSvc, ipfsUploader)
 		docsHandler = documents.NewHandler(docSvc)
 	}
+	complianceRepo := compliance.NewRepository(db)
+	complianceService := compliance.NewService(complianceRepo)
+	complianceHandler := compliance.NewHandler(complianceService)
 
 	// Setup Gin
 	if !cfg.Debug {
@@ -159,6 +163,7 @@ func main() {
 				"auth":          "/api/auth/*",
 				"collaboration": "/api/collaboration/*",
 				"documents":     "/api/v1/documents/*",
+				"compliance":    "/api/v1/compliance/*",
 				"integration":   "/api/integration/*",
 				"reports":       "/api/v1/reports/*",
 				"search":        "/api/v1/search/*",
@@ -194,6 +199,8 @@ func main() {
 		if docsHandler != nil {
 			documents.RegisterRoutes(v1, docsHandler)
 		}
+		// Register compliance routes under v1
+		complianceHandler.RegisterRoutes(v1)
 
 		// Ping endpoint for testing
 		v1.GET("/ping", func(c *gin.Context) {
@@ -227,6 +234,7 @@ func main() {
 		fmt.Println("   - Integrations: /api/integration/*")
 		fmt.Println("   - Reports: /api/v1/reports/*")
 		fmt.Println("   - Search: /api/v1/search/*")
+		fmt.Println("   - Compliance: /api/v1/compliance/*")
 
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("❌ Server failed to start: %v", err)
@@ -316,6 +324,15 @@ func runAllMigrations(db *gorm.DB) error {
 		&reports.ReportExecution{},
 		&reports.BenchmarkDataset{},
 		&reports.DashboardWidget{},
+
+		// Compliance models
+		&compliance.RetentionPolicy{},
+		&compliance.PrivacyRequest{},
+		&compliance.PrivacyPreference{},
+		&compliance.ConsentRecord{},
+		&compliance.AuditLog{},
+		&compliance.RetentionSchedule{},
+		&compliance.LegalHold{},
 	)
 
 	if err != nil {
