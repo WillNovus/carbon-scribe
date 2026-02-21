@@ -1,10 +1,8 @@
 'use client';
 
 import { TrendingUp, Trees, Coins, Globe, Droplets, Leaf } from 'lucide-react';
-import { useFarmer } from '@/contexts/FarmerContext';
 
 const ProjectStatsDashboard = () => {
-  const { stats } = useFarmer();
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
