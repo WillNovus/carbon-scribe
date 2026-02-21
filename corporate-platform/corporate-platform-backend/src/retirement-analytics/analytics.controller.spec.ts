@@ -4,7 +4,6 @@ import { RetirementAnalyticsService } from './analytics.service';
 
 describe('RetirementAnalyticsController', () => {
   let controller: RetirementAnalyticsController;
-  let service: RetirementAnalyticsService;
 
   const mockAnalyticsService = {
     getPurposeBreakdown: jest.fn(),
@@ -29,9 +28,7 @@ describe('RetirementAnalyticsController', () => {
     controller = module.get<RetirementAnalyticsController>(
       RetirementAnalyticsController,
     );
-    service = module.get<RetirementAnalyticsService>(
-      RetirementAnalyticsService,
-    );
+
     jest.clearAllMocks();
   });
 
