@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useStore } from '@/store/store';
+import { useStore } from '@/lib/store/store';
 
 export default function ProtectedRoute({
   children,

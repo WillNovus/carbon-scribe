@@ -1,6 +1,6 @@
 'use client';
 
-import { useStore } from '@/store/store';
+import { useStore } from '@/lib/store/store';
 import { Menu, Bell, Search, Globe, User, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

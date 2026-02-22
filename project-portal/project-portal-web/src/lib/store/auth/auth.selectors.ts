@@ -1,10 +1,10 @@
-import type { AuthState } from "./auth.types";
+import type { AuthSlice } from "./auth.types";
 
-export const selectUser = (s: AuthState) => s.user;
-export const selectToken = (s: AuthState) => s.token;
-export const selectIsAuthenticated = (s: AuthState) => s.isAuthenticated;
-export const selectAuthError = (s: AuthState) => s.error;
-export const selectIsHydrated = (s: AuthState) => s.isHydrated;
+export const selectUser = (s: AuthSlice) => s.user;
+export const selectToken = (s: AuthSlice) => s.token;
+export const selectIsAuthenticated = (s: AuthSlice) => s.isAuthenticated;
+export const selectAuthError = (s: AuthSlice) => s.authError;
+export const selectIsHydrated = (s: AuthSlice) => s.isHydrated;
 
-export const selectUserName = (s: AuthState) => s.user?.full_name ?? "";
-export const selectUserRole = (s: AuthState) => s.user?.role ?? "farmer";
+export const selectUserName = (s: AuthSlice) => s.user?.full_name ?? "";
+export const selectUserRole = (s: AuthSlice) => s.user?.role ?? "farmer";

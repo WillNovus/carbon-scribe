@@ -3,7 +3,7 @@
 import { Home, FolderKanban, BarChart3, Satellite, CreditCard, Users, FileText, Settings, LogOut, ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useStore } from '@/store/store';
+import { useStore } from '@/lib/store/store';
 import Link from 'next/link';
 
 const PortalSidebar = () => {
