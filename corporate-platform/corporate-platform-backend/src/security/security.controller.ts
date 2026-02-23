@@ -1,9 +1,8 @@
-import { Controller, Get, Post, Delete, Body, Param, Query, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { SecurityService } from './security.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
-import { Request } from 'express';
 
 class CreateWhitelistDto {
   cidr: string;
@@ -72,7 +71,7 @@ export class SecurityController {
   }
 
   @Get('events/summary')
-  async getSecuritySummary(@CurrentUser() user: JwtPayload, @Req() req: Request) {
+  async getSecuritySummary(@CurrentUser() user: JwtPayload) {
     const now = new Date();
     const from = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
