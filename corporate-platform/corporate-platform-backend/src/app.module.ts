@@ -11,8 +11,11 @@ import { AnalyticsModule } from './analytics/analytics.module';
 import { CacheModule } from './cache/cache.module';
 import { RetirementAnalyticsModule } from './retirement-analytics/analytics.module';
 import { AuthModule } from './auth/auth.module';
+import { CartModule } from './cart/cart.module';
+import { RbacModule } from './rbac/rbac.module';
 import { AuctionModule } from './auction/auction.module';
 import { SchedulingModule } from './retirement-scheduling/scheduling.module';
+
 @Module({
   imports: [
     DatabaseModule,
@@ -25,6 +28,8 @@ import { SchedulingModule } from './retirement-scheduling/scheduling.module';
     CacheModule,
     RetirementAnalyticsModule,
     AuthModule,
+    CartModule,
+    RbacModule,
     AuctionModule,
     SchedulingModule,
   ],

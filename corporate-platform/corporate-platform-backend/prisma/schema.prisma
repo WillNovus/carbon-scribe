@@ -22,12 +22,14 @@ model Company {
   annualRetirementTarget  Float               @default(0)
   netZeroTarget           Float               @default(0)
   netZeroTargetYear       Int?
-  
+
   retirements             Retirement[]
   retirementTargets       RetirementTarget[]
   retirementSchedules     RetirementSchedule[]
   batchRetirements        BatchRetirement[]
   users                   User[]
+  carts                   Cart[]
+  orders                  Order[]
   bids                    Bid[]
 
   createdAt               DateTime            @default(now())
@@ -36,21 +38,37 @@ model Company {
   @@map("companies")
 }
 
+model RetirementTarget {
+  id          String   @id @default(cuid())
+  companyId   String
+  year        Int
+  month       Int
+  target      Float
+
+  company     Company  @relation(fields: [companyId], references: [id])
+
+  @@unique([companyId, year, month])
+  @@map("retirement_targets")
+}
+
 model Credit {
-  id          String       @id @default(cuid())
-  projectName String
-  country     String?
-  methodology String?
-  standard    String?
-  sdgs        String?
-  vintageYear Int?
-  price       Float?
-  totalAmount Int
-  available   Int
-  retirements Retirement[]
-  auctions    Auction[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id           String               @id @default(cuid())
+  projectName  String
+  country      String?
+  methodology  String?
+  standard     String?
+  sdgs         String?
+  vintageYear  Int?
+  price        Float                @default(0) // Price per tCO₂
+  totalAmount  Int
+  available    Int
+  retirements  Retirement[]
+  cartItems    CartItem[]
+  orderItems   OrderItem[]
+  reservations CreditReservation[]
+  auctions     Auction[]
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
 
   // Search optimization
   searchVector    String?
@@ -125,19 +143,6 @@ model RetirementCertificate {
   createdAt         DateTime  @default(now())
 }
 
-model RetirementTarget {
-  id          String   @id @default(cuid())
-  companyId   String
-  year        Int
-  month       Int
-  target      Float
-
-  company     Company  @relation(fields: [companyId], references: [id])
-
-  @@unique([companyId, year, month])
-  @@map("retirement_targets")
-}
-
 model User {
   id                  String    @id @default(cuid())
   email               String    @unique
@@ -179,6 +184,153 @@ model Session {
   @@index([refreshToken])
   @@index([expiresAt])
 }
+
+// ==========================================
+// Shopping Cart & Checkout Models
+// ==========================================
+
+model Cart {
+  id              String    @id @default(cuid())
+  companyId       String
+  company         Company   @relation(fields: [companyId], references: [id])
+
+  // Session
+  sessionId       String    @unique
+  expiresAt       DateTime  // Carts expire after 7 days
+
+  // Totals
+  subtotal        Float     @default(0)
+  serviceFee      Float     @default(0)
+  total           Float     @default(0)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  items           CartItem[]
+  order           Order?
+
+  @@index([companyId])
+  @@index([sessionId])
+  @@index([expiresAt])
+}
+
+model CartItem {
+  id              String    @id @default(cuid())
+  cartId          String
+  cart            Cart      @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  creditId        String
+  credit          Credit    @relation(fields: [creditId], references: [id])
+
+  quantity        Int       @default(1000) // Standard lot size
+  price           Float     // Price snapshot at add time
+
+  createdAt       DateTime  @default(now())
+
+  @@unique([cartId, creditId])
+  @@index([cartId])
+}
+
+model Order {
+  id              String    @id @default(cuid())
+  orderNumber     String    @unique // Human-readable (e.g., "ORD-2024-0001")
+
+  companyId       String
+  company         Company   @relation(fields: [companyId], references: [id])
+  userId          String    // User who placed order
+
+  cartId          String?   @unique // Original cart
+  cart            Cart?     @relation(fields: [cartId], references: [id])
+
+  // Order details
+  subtotal        Float
+  serviceFee      Float
+  total           Float
+  status          String    // pending, processing, completed, failed, refunded
+
+  // Payment
+  paymentMethod   String?   // credit_card, wire, crypto
+  paymentId       String?
+  paidAt          DateTime?
+
+  // Blockchain
+  transactionHash String?   // Stellar transaction hash
+
+  // Metadata
+  notes           String?
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  completedAt     DateTime?
+
+  // Relations
+  items           OrderItem[]
+  auditLogs       OrderAuditLog[]
+
+  @@index([companyId])
+  @@index([orderNumber])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id              String    @id @default(cuid())
+  orderId         String
+  order           Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  creditId        String
+  credit          Credit    @relation(fields: [creditId], references: [id])
+
+  quantity        Int
+  price           Float     // Price at purchase
+  subtotal        Float
+
+  createdAt       DateTime  @default(now())
+
+  @@index([orderId])
+}
+
+// ==========================================
+// Credit Reservation (15-minute hold)
+// ==========================================
+
+model CreditReservation {
+  id        String   @id @default(cuid())
+  cartId    String
+  creditId  String
+  credit    Credit   @relation(fields: [creditId], references: [id])
+  quantity  Int
+  expiresAt DateTime // 15-minute TTL
+  createdAt DateTime @default(now())
+
+  @@unique([cartId, creditId])
+  @@index([cartId])
+  @@index([creditId])
+  @@index([expiresAt])
+}
+
+// ==========================================
+// Order Audit Log
+// ==========================================
+
+model OrderAuditLog {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id])
+  event      String   // created, confirmed, failed, cancelled, refunded
+  fromStatus String?
+  toStatus   String
+  userId     String?
+  metadata   String?  // JSON string for extra context
+  createdAt  DateTime @default(now())
+
+  @@index([orderId])
+  @@index([event])
+  @@index([createdAt])
+}
+
+// ==========================================
+// Auction Models
+// ==========================================
 
 model Auction {
   id              String   @id @default(cuid())
