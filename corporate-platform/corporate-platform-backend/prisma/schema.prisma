@@ -1,10 +1,10 @@
-datasource db {
-  provider = "postgresql"
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+datasource db {
+  provider = "postgresql"
 }
 
 enum RetirementPurpose {
@@ -119,6 +119,19 @@ model RetirementCertificate {
   transactionHash   String?
 
   createdAt         DateTime  @default(now())
+}
+
+model RetirementTarget {
+  id          String   @id @default(cuid())
+  companyId   String
+  year        Int
+  month       Int
+  target      Float
+
+  company     Company  @relation(fields: [companyId], references: [id])
+
+  @@unique([companyId, year, month])
+  @@map("retirement_targets")
 }
 
 model User {
