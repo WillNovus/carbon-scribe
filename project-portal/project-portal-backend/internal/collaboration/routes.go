@@ -16,9 +16,11 @@ func RegisterRoutes(r *gin.Engine, h *Handler) {
 		// Activity feed
 		v1.GET("/projects/:id/activities", h.GetActivities)
 
+
 		// Comments
 		v1.GET("/projects/:id/comments", h.ListComments)
 		v1.POST("/comments", h.CreateComment)
+
 
 		// Tasks
 		v1.GET("/projects/:id/tasks", h.ListTasks)
