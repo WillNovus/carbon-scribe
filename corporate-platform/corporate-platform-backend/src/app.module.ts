@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RetirementModule } from './retirement/retirement.module';
@@ -8,13 +8,14 @@ import { StellarModule } from './stellar/stellar.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { CacheModule } from './cache/cache.module';
-import { DatabaseModule } from './shared/database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
-    DatabaseModule,
+    ConfigModule,
+    LoggerModule,
+    SecurityModule,
     RetirementModule,
     ComplianceModule,
     MarketplaceModule,
@@ -28,4 +29,8 @@ import { OrderModule } from './order/order.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestLoggerMiddleware).forRoutes('*');
+  }
+}

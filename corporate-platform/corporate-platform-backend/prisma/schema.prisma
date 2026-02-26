@@ -31,13 +31,40 @@ model Company {
 }
 
 model Credit {
-  id          String       @id @default(cuid())
-  projectName String
-  totalAmount Int
-  available   Int
-  retirements Retirement[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id           String               @id @default(cuid())
+  projectId    String?  // Optional link to Project entity
+  project      Project?             @relation(fields: [projectId], references: [id])
+  projectName  String               // Denormalized for display/search
+  country      String?
+  methodology  String?
+  standard     String?
+  sdgs         String?
+  vintageYear  Int?
+  price        Float                @default(0) // Price per tCO₂
+  totalAmount  Int
+  available    Int
+  retirements  Retirement[]
+  cartItems    CartItem[]
+  orderItems   OrderItem[]
+  reservations CreditReservation[]
+  auctions     Auction[]
+  portfolioEntries PortfolioEntry[]
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  // Search optimization
+  searchVector    String?
+  featured        Boolean   @default(false)
+  featuredUntil   DateTime?
+  viewCount       Int       @default(0)
+  purchaseCount   Int       @default(0)
+  lastPurchasedAt DateTime?
+
+  @@index([projectId])
+  @@index([searchVector])
+  @@index([featured])
+  @@index([viewCount])
+  @@index([purchaseCount])
 }
 
 model Retirement {
@@ -101,23 +128,24 @@ model RetirementCertificate {
 }
 
 model User {
-  id                  String    @id @default(cuid())
-  email               String    @unique
-  password            String
-  firstName           String
-  lastName            String
-  role                String    @default("viewer")
-  companyId           String
-  company             Company   @relation(fields: [companyId], references: [id])
-  refreshToken        String?
-  lastLoginAt         DateTime?
-  lastLoginIp         String?
-  isActive            Boolean   @default(true)
-  emailVerified       Boolean   @default(false)
-  passwordResetToken  String?
+  id                   String   @id @default(cuid())
+  email                String   @unique
+  password             String
+  firstName            String
+  lastName             String
+  role                 String   @default("viewer")
+  companyId            String
+  company              Company  @relation(fields: [companyId], references: [id])
+  refreshToken         String?
+  lastLoginAt          DateTime?
+  lastLoginIp          String?
+  isActive             Boolean  @default(true)
+  emailVerified        Boolean  @default(false)
+  passwordResetToken   String?
   passwordResetExpires DateTime?
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
   sessions            Session[]
   retirements         Retirement[]
   orders              Order[]

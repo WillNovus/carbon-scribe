@@ -15,6 +15,8 @@ type Config struct {
 	Elasticsearch ElasticsearchConfig
 	AWS           AWSConfig
 	Storage       StorageConfig
+	Geospatial    GeospatialConfig
+	Settings      SettingsConfig
 }
 
 // ElasticsearchConfig holds configuration for Elasticsearch
@@ -40,6 +42,19 @@ type StorageConfig struct {
 	MaxUploadSizeMB int64
 	IPFSEnabled     bool
 	IPFSNodeURL     string
+}
+
+type SettingsConfig struct {
+	EncryptionKeyHex string
+	APIKeyPrefix     string
+	ProfileCDNBase   string
+}
+
+type GeospatialConfig struct {
+	DefaultProvider   string
+	MapboxAccessToken string
+	GoogleMapsAPIKey  string
+	TileCacheTTL      string
 }
 
 // Load loads configuration from environment variables
@@ -88,6 +103,17 @@ func Load() (*Config, error) {
 			MaxUploadSizeMB: maxUpload,
 			IPFSEnabled:     os.Getenv("IPFS_ENABLED") == "true",
 			IPFSNodeURL:     getEnvOrDefault("IPFS_NODE_URL", "http://localhost:5001"),
+		},
+		Geospatial: GeospatialConfig{
+			DefaultProvider:   getEnvOrDefault("MAPS_DEFAULT_PROVIDER", "mapbox"),
+			MapboxAccessToken: os.Getenv("MAPS_MAPBOX_ACCESS_TOKEN"),
+			GoogleMapsAPIKey:  os.Getenv("MAPS_GOOGLE_MAPS_API_KEY"),
+			TileCacheTTL:      getEnvOrDefault("MAPS_TILE_CACHE_TTL", "24h"),
+		},
+		Settings: SettingsConfig{
+			EncryptionKeyHex: os.Getenv("SETTINGS_ENCRYPTION_KEY_HEX"),
+			APIKeyPrefix:     getEnvOrDefault("SETTINGS_API_KEY_PREFIX", "ppk_live"),
+			ProfileCDNBase:   getEnvOrDefault("SETTINGS_PROFILE_CDN_BASE", "https://cdn.carbonscribe.local"),
 		},
 	}, nil
 }
